@@ -22,8 +22,10 @@ pH = pigpio.pi()
 pH.set_mode(servoPINH, pigpio.OUTPUT)
 pH.set_PWM_frequency( servoPINH, 50 )
 
-pM = GPIO.PWM(motorPinF, 100)
-pM.start(0)
+pF = GPIO.PWM(motorPinR, 100)
+pF.start(0)
+pR = GPIO.PWM(motorPinR, 100)
+pR.start(0)
 
 angleV = 0
 angleH = 0
@@ -35,34 +37,34 @@ class MyController(Controller):
         Controller.__init__(self, **kwargs)
 
     def on_x_press(self):
-        pM.ChangeDutyCycle(100)
+        pR.ChangeDutyCycle(100)
     def on_x_release(self):
-        pM.ChangeDutyCycle(0)
+        pR.ChangeDutyCycle(0)
     def on_circle_press(self):
-        vFlag = 2
+        pR.ChangeDutyCycle(100)
     def on_circle_release(self):
-        vFlag = 0
+        pR.ChangeDutyCycle(0)
         
     def on_up_arrow_press(self):
         global angleV
         if angleV < 2500:
-            angleV = angleV + 50
-            pV.set_servo_pulsewidth(angleV)
+            angleV = angleV + 500
+            pV.set_servo_pulsewidth( servoPINV,angleV)
     def on_down_arrow_press(self):
         global angleV
         if angleV > 0:
-            angleV = angleV - 50
-            pV.set_servo_pulsewidth(angleV)
+            angleV = angleV - 500
+            pV.set_servo_pulsewidth( servoPINV,angleV)
     def on_left_arrow_press(self):
         global angleH
         if angleH < 2500:
-            angleH = angleH + 50
-            pH.set_servo_pulsewidth(angleH)
+            angleH = angleH + 500
+            pH.set_servo_pulsewidth( servoPINH,angleH)
     def on_right_arrow_press(self):
         global angleH
         if angleH > 0:
-            angleH = angleH - 50
-            pH.set_servo_pulsewidth(angleH)
+            angleH = angleH - 500
+            pH.set_servo_pulsewidth( servoPINH,angleH)
     
 
 controller = MyController(interface="/dev/input/js0", connecting_using_ds4drv=False)
