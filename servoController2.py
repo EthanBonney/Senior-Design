@@ -34,7 +34,7 @@ class MyController(Controller):
         Controller.__init__(self, **kwargs)
 
     def on_x_press(self):
-        pM.ChangeDutyCycle(50)
+        pM.ChangeDutyCycle(100)
     def on_x_release(self):
         pM.ChangeDutyCycle(0)
     def on_circle_press(self):
@@ -56,12 +56,12 @@ class MyController(Controller):
         global angleH
         if angleH < 10:
             angleH = angleH + 1
-            pH.changeDutyCycle(angleH)
+            pH.ChangeDutyCycle(angleH)
     def on_right_arrow_press(self):
         global angleH
         if angleH > 0:
             angleH = angleH - 1
-            pH.changeDutyCycle(angleH)
+            pH.ChangeDutyCycle(angleH)
     
 
 controller = MyController(interface="/dev/input/js0", connecting_using_ds4drv=False)
