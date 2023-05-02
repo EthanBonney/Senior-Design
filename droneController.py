@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 from pyPS4Controller.controller import Controller
 
-
+#initialize pins
 servoPINV = 17
 servoPINH = 4
 motorPinF = 27
@@ -13,7 +13,7 @@ GPIO.setup(servoPINV, GPIO.OUT)
 GPIO.setup(motorPinF, GPIO.OUT)
 GPIO.setup(motorPinR, GPIO.OUT)
 
-
+#initialize PWM for motor and servos
 pV = GPIO.PWM(servoPINV, 50) # GPIO 17 for PWM with 50Hz
 pV.start(2.5) # Initialization
 
@@ -30,12 +30,14 @@ pR.start(100)
 angleV = 0
 angleH = 0
 
+#Controller Function
 class MyController(Controller):
     
 
     def __init__(self, **kwargs):
         Controller.__init__(self, **kwargs)
 
+#Commands from controller, all functions are falling edge triggers
     def on_x_press(self):
         pF.ChangeDutyCycle(0)
     def on_x_release(self):
@@ -68,5 +70,4 @@ class MyController(Controller):
     
 
 controller = MyController(interface="/dev/input/js0", connecting_using_ds4drv=False)
-# you can start listening before controller is paired, as long as you pair it within the timeout window
 controller.listen(timeout=60)
